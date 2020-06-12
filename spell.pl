@@ -26,19 +26,19 @@ letter(Char) --> [Char], {char_type(Char, alpha)}.  %% Charlar birer harftir, b�
 
 blank --> [Char], {\+ char_type(Char, alpha)}.
 
-correct(Word, Correct) :-
+correct(Word,[Correct]) :-
 %%repeat,read_line_to_codes(list,Line), (Line==end_of_file -> close(list),
-    correct_(Word, Knowns),
+    correct_word(Word, Knowns),
     maplist(val_key, Knowns, ValKeys),
     max_member(_:Correct, ValKeys), !.
-    correct(Word,Word);
+    correct(Word, [Word]);
     (correct(Word,Correct)->(write(Correct), nl, fail); (write('Düzeltme Yapılamadı.'), nl, fail))).
 
 
-correct_(Word, [Known | Knowns]) :-
-    (known([Word], [Known | Knowns])
+correct_word(Word, [Known | Knowns]) :-
+    (known([Word], [Known|Knowns])
     ; edits1(Word, Eds), known(Eds, [Known | Knowns])
-    ; known_edits2(Word, [Known | Knowns])).
+    ; known_edits2(Word, [Known|Knowns])).
 
 known(Words, Known) :- findall(W, (member(W, Words), list(W, _)), Known).
 
