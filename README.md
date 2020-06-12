@@ -1,3 +1,4 @@
 [spell].
 init.
-Correct(word,C).
+correct(word,Fixed).
+correct_word(word,Fixed).
